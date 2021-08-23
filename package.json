@@ -1,0 +1,23 @@
+{
+    "name": "hen-codelab1-complete",
+    "version": "0.0.0",
+    "private": true,
+    "description": "HEN codelab sample code.",
+    "license": "Apache-2.0",
+    "engines": {
+        "node": "10"
+    },
+    "scripts": {
+        "lint": "eslint \"**/*.jsnp\"",
+        "lint:fix": "eslint --fix \"**/*.js\"",
+        "test": "npm run lint",
+        "start": "http-server ./start",
+        "complete": "http-server ./complete"
+    },
+    "devDependencies": {
+        "eslint": "^5.2.0",
+        "eslint-config-google": "^0.9.1",
+        "http-server": "^13.0.0"
+    },
+    "dependencies": {}
+}

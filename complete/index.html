@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <title>hic et nunc</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        img {
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+        <img id="image" />
+    </div>
+    <script>
+        async function fetchHicdex(query, variables, operationName) {
+            const result = await fetch(
+                "https://api.hicdex.com/v1/graphql", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        query: query,
+                        variables: variables,
+                        operationName: operationName
+                    })
+                }
+            )
+            const json = await result.json()
+            console.log(JSON.stringify(json))
+            return json
+        }
+
+        async function querySwap() {
+            const {
+                errors,
+                data
+            } = await fetchHicdex(`query MyQuery {
+                    hic_et_nunc_swap(limit: 1, where: {token: {mime: {_like: "image/%"}}, contract_version: {_eq: "2"}}, order_by: {token_id: desc}) {
+                        token_id
+                    }
+                }`, {}, "MyQuery")
+            if (errors) {
+                console.error(errors)
+                return false
+            }
+            const result = data.hic_et_nunc_swap
+            if (result.length == 0) {
+                return false
+            }
+            console.log(result)
+            return result
+        }
+
+        async function queryTokenInfo(token_id) {
+            const {
+                errors,
+                data
+            } = await fetchHicdex(`query MyQuery($token_id: bigint) {
+                      hic_et_nunc_token(where: {id: {_eq: $token_id}}) {
+                        artifact_uri
+                      }
+                  }`, {
+                token_id: token_id
+            }, "MyQuery")
+            if (errors) {
+                console.error(errors)
+                return false
+            }
+            const result = data.hic_et_nunc_token
+            if (result.length == 0) {
+                return false
+            }
+            console.log(result)
+            return result
+        }
+
+        function ipfsToHttp(url) {
+            return url.replace('ipfs://', 'https://ipfs.io/ipfs/')
+        }
+
+        async function displayNft() {
+            const swap = await querySwap()
+            if (swap) {
+                const info = await queryTokenInfo(swap[0].token_id)
+
+                if (info) {
+                    image.src = ipfsToHttp(info[0].artifact_uri)
+                }
+
+            }
+        }
+        displayNft()
+    </script>
+</body>
+
+</html>
