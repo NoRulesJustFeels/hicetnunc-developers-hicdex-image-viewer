@@ -26,7 +26,7 @@ This is a work in progress, if you find a mistake, please [file an issue][git-is
 ## License
 See [LICENSE](LICENSE).
 
-[codelab]: [https://bla/](https://hen-tutorials.web.app/codelabs/hicetnunc-developers-hicdex-image-viewer/index.html)
+[codelab]: https://hen-tutorials.web.app/codelabs/hicetnunc-developers-hicdex-image-viewer/index.html
 [git-issue]: https://github.com/NoRulesJustFeels/hicetnunc-developers-hicdex-image-viewer/issues
-[hicdex]: [https://hicdex.com/]
-[hen]: [https://www.hicetnunc.xyz/]
+[hicdex]: https://hicdex.com/
+[hen]: https://www.hicetnunc.xyz/
